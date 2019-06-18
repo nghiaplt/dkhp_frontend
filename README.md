@@ -1,4 +1,4 @@
 # dkhp_frontend
-clone this project
-`npm install`
-`npm start`
+Clone this project and run:
+  - `npm install`
+  - `npm start`
