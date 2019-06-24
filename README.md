@@ -7,4 +7,4 @@ F12 -> console for the result
 
 Run server before click 2 button, they call api
 
-![Image of Instruction](https://github.com/nghiaplt/dkhp_frontend/Instruction.png)
+![Image of Instruction](https://github.com/nghiaplt/dkhp_frontend/blob/master/Instruction.png)
