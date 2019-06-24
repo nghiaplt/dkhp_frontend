@@ -1,29 +1,54 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import axios from 'axios';
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
-var api = "http://localhost:8222"
 
-var getData = () => {
-  axios.get(api + "/subject").then(result => {
-    console.log(result.data);
-  })
+import SubjectList from './components/subject/List';
+import SubjectDetails from './components/subject/Details';
+import Home from './components/Home';
+
+import SideBar from './components/Sidebar/SideBar';
+import NavBar from './components/NavBar';
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
+  render() {
+    return (
+      <div>
+        <div className="wrapper">
+          <Router>
+            <SideBar></SideBar>
+            <div className="content">
+              <NavBar></NavBar>
+              <Route path="/" render={() => (
+                < Redirect to="/subjects" />
+              )} />
+              <Route path="/home" component={Home} />
+              <Route path="/subjects" component={SubjectList} />
+              <Route path="/subject/details" component={SubjectDetails} />
+            </div>
+          </Router>
+        </div>
+        <div className="overlay"></div>
+      </div>
+    );
+  }
+
 }
 
-var insertData = () => {
-  axios.post(api + "/subject", { subject_name: "new subject" }).then(result => {
-    console.log(result);
-  });
-}
 
-function App() {
-  return (
-    <div className="App">
-      <div><button onClick={getData}>Get Data</button></div>
-      <div><button onClick={insertData}>Insert Data</button></div>
-    </div>
-  );
-}
+
+// function App() {
+//   return (
+//     <div className="App">
+//       <div><button onClick={getData}>Get Data</button></div>
+//       <div><button onClick={insertData}>Insert Data</button></div>
+//     </div>
+//   );
+// }
 
 export default App;
