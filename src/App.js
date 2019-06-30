@@ -1,43 +1,54 @@
 import React from 'react';
 import './App.css';
+
+
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import Main from "./components/Main";
+import Login from "./components/Login";
 
-
-import SubjectList from './components/subject/List';
-import SubjectDetails from './components/subject/Details';
-import Home from './components/Home';
-
-import SideBar from './components/Sidebar/SideBar';
-import NavBar from './components/NavBar';
+import axios from "axios";
+window.axios = axios;
+window.API = "http://localhost:8222";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: {}
     };
+  }
+  componentDidMount() {
+    window.$(function () {
+      // Enables popover
+      window.$("[data-toggle=popover]").popover();
+    });
   }
   render() {
     return (
-      <div>
-        <div className="wrapper">
-          <Router>
-            <SideBar></SideBar>
-            <div className="content">
-              <NavBar></NavBar>
-              <Route path="/" render={() => (
-                < Redirect to="/subjects" />
-              )} />
-              <Route path="/home" component={Home} />
-              <Route path="/subjects" component={SubjectList} />
-              <Route path="/subject/details" component={SubjectDetails} />
-            </div>
-          </Router>
-        </div>
-        <div className="overlay"></div>
-      </div>
+      <Router>
+
+        <Route exact path="/" render={() => (
+          < Redirect to="/login" />
+        )} />
+        <Route
+          path="/login"
+          render={(props) =>
+            <Login
+              {...props}
+              setUser={(user) => { this.setState({ user }) }}
+            />}
+        />
+        <Route
+          path="/dashboard/*"
+          render={(props) =>
+            <Main
+              {...props}
+              user={this.state.user}
+            />} />
+
+      </Router>
     );
   }
-
 }
 
 

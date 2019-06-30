@@ -1,8 +1,12 @@
 /*
     DEMO STYLE
 */
-
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+html,
+body {
+    height: 100%;
+}
 body {
     font-family: 'Poppins', sans-serif;
     background: #fafafa;
@@ -188,4 +192,22 @@ a.article:hover {
     position: absolute;
     top: 0;
     right: 0;
+}
+
+.center-login {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#root {
+    height: 100%;
+}
+
+.scroll-view {
+    height: 75vh;
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: scroll;
 }
