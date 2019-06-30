@@ -22,6 +22,7 @@ class Main extends React.Component {
             dataTableInstance: null
         };
         var user = JSON.parse(localStorage.getItem("user"));
+        if (user.id === undefined) window.location.href = "/login";
         window.axios.defaults.headers.common['Authorization'] = user.id;
 
     }

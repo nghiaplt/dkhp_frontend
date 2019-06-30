@@ -54,14 +54,14 @@ class Roadmap extends React.Component {
             fontFamily: 'Calibri',
             fill: 'blue'
         });
-        var line1 = this.createLine([-90, -40, -50, -40], "green", 5)
+        var line1 = this.createLine([-90, -40, -50, -40], "yellow", 5)
         var cothehoc = new Konva.Text({
             x: 70,
             y: 50,
             text: 'Môn có thể học',
             fontSize: 30,
             fontFamily: 'Calibri',
-            fill: 'green'
+            fill: 'yellow'
         });
         this.addNodeToLayer(line);
         this.addNodeToLayer(tienquyet);
@@ -74,7 +74,7 @@ class Roadmap extends React.Component {
                 var newLine = this.linesHover.find(line => line.attrs.id1 == subject.cothehoc[i].id && line.attrs.id2 == subject.id);
                 if (newLine !== undefined) continue;
                 var line = this.createLineFromCircleToCircle(subject.cothehoc[i].x, subject.cothehoc[i].y, subject.x, subject.y,
-                    'green', 5, subject.cothehoc[i].id, subject.id);
+                    'yellow', 5, subject.cothehoc[i].id, subject.id);
                 this.linesHover = [...this.linesHover, line];
                 this.addNodeToLayer(line);
                 this.drawBackLines(subject.cothehoc[i]);

@@ -1,11 +1,14 @@
 import React from 'react';
 
-import { Table, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css'
 
 class SubjectList1 extends React.Component {
     constructor(props) {
         super(props);
         this.dataTableInstance = null;
+        this.start = 0;
         this.state = {
             subjects: [],
             registeredSubjects: [],
@@ -13,10 +16,7 @@ class SubjectList1 extends React.Component {
         };
     }
     componentDidMount() {
-        // Promise.all(axios.all)
-        this.getSubjects();
-        this.getRegisteredSubjects();
-
+        this.prepareData();
     }
     componentDidUpdate() {
         this.initTable();
@@ -26,7 +26,12 @@ class SubjectList1 extends React.Component {
             this.dataTableInstance.destroy();
         }
         this.dataTableInstance = window.$("#table").DataTable({
-            "lengthMenu": [5, 10]
+            "lengthMenu": [5, 10],
+            "iDisplayStart": this.start
+        })
+        this.dataTableInstance.on('page.dt', () => {
+            var info = this.dataTableInstance.page.info();
+            this.start = info.start;
         })
     }
     componentWillUnmount() {
@@ -40,10 +45,10 @@ class SubjectList1 extends React.Component {
             <table id="table" className="table table-hover table-bordered" >
                 <thead>
                     <tr>
-                        <th style={{ width: "30%" }}>Tên học phần</th>
-                        <th style={{ width: "20%" }}>Tên giáo viên</th>
-                        <th style={{ width: "5%" }}>Tín chỉ</th>
-                        <th style={{ width: "5%" }}>Đăng ký</th>
+                        <th style={{ width: "40%" }}>Tên học phần</th>
+                        <th style={{ width: "25%" }}>Tên giáo viên</th>
+                        <th style={{ width: "15%" }}>Tín chỉ</th>
+                        <th style={{ width: "15%" }}>Đăng ký</th>
                         <th style={{ width: "5%" }}></th>
                     </tr>
                 </thead>
@@ -51,9 +56,9 @@ class SubjectList1 extends React.Component {
                     {
                         subjectsFilter.map(subject => (
                             <tr key={subject.id} className={subject.isRegistered ? "table-success" : ""}>
-                                <td>{subject.ten}</td>
+                                <td>{subject.tenMH}</td>
                                 <td>{subject.tenGV}</td>
-                                <td className="text-center">{subject.soTinChi}</td>
+                                <td>{subject.soTinChi}</td>
                                 <td>{subject.soLuongSVDaDangKyDot1}</td>
                                 {
                                     !subject.isRegistered ?
@@ -67,11 +72,26 @@ class SubjectList1 extends React.Component {
             </table>
         )
     }
+    prepareData() {
+        Promise.all([this.getSubjects(), this.getRegisteredSubjects()]).then(result => {
+            this.setState({
+                registeredSubjects: result[1].data.data,
+                subjects: result[0].data.data
+            });
+        })
+    }
     registerSubject(subject) {
         window.axios.post(window.API + "/subject/" + subject.id + "/register/phase1").then(result => {
             if (result.data.success) {
-                this.getSubjects();
-                this.getRegisteredSubjects();
+                iziToast.success({
+                    message: "Đăng ký thành công"
+                })
+                this.prepareData();
+            }
+            else {
+                iziToast.error({
+                    message: result.data.message
+                })
             }
         })
 
@@ -79,29 +99,23 @@ class SubjectList1 extends React.Component {
     unregisterSubject(subject) {
         window.axios.post(window.API + "/subject/" + subject.id + "/register/cancel/phase1").then(result => {
             if (result.data.success) {
-                this.getSubjects();
-                this.getRegisteredSubjects();
+                iziToast.success({
+                    message: "Hủy đăng ký thành công"
+                })
+                this.prepareData();
+            }
+            else {
+                iziToast.error({
+                    message: result.data.message
+                })
             }
         })
     }
     getSubjects() {
-        window.axios.get(window.API + "/subjects/available/phase1").then(result => {
-            if (result.data.success) {
-                this.setState({
-                    subjects: result.data.data
-                });
-            }
-        })
+        return window.axios.get(window.API + "/subjects/available/phase1")
     }
     getRegisteredSubjects() {
-        window.axios.get(window.API + "/subjects/registered/phase1").then(result => {
-            if (result.data.success) {
-                this.setState({
-                    registeredSubjects: result.data.data
-                });
-            }
-        })
-
+        return window.axios.get(window.API + "/subjects/registered/phase1")
     }
 }
 

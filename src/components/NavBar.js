@@ -27,6 +27,9 @@ class Navbar extends React.Component {
 
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="nav navbar-nav ml-auto">
+                            <li>
+                                <button className="btn btn-primary" onClick={e => this.movePhase2(e)}>Lọc sinh viên cho đăng ký lần 2 </button>
+                            </li>
                             <li className={location.pathname === "/dashboard/roadmap" ? classActive : classNotActive}>
                                 <Link to="/dashboard/roadmap" className="nav-link">Roadmap</Link>
                             </li>
@@ -76,7 +79,13 @@ class Navbar extends React.Component {
     }
     signOut(e) {
         e.preventDefault();
+        localStorage.setItem("user", "{}");
+        window.location.href = "/login";
+    }
+    movePhase2(e) {
+        window.axios.post(window.API + "/move/phase2").then(result => {
 
+        })
     }
 }
 

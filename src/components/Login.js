@@ -1,7 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
-import axios from 'axios';
 
 class Login extends React.Component {
     constructor(props) {
@@ -28,7 +25,7 @@ class Login extends React.Component {
                         <div className="btn-group-vertical">
                             {this.state.students.map(student =>
                                 <button key={student.id} className="btn btn-secondary mt-2" onClick={(e) => this.userLogin(student, e)}>
-                                    <Link to="/dashboard/roadmap">{(1612000 + student.id) + " - " + student.ten}</Link>
+                                    {(1612000 + student.id) + " - " + student.ten}
                                 </button>
                             )
                             }
@@ -43,9 +40,11 @@ class Login extends React.Component {
         window.axios.get(window.API + "/student/" + user.id).then(result => {
             if (result.data.success) {
                 user = result.data.data[0];
+                console.log(user);
                 localStorage.setItem("user", JSON.stringify(user));
                 window.axios.defaults.headers.common['Authorization'] = user.id;
                 setUser && setUser(user);
+                window.location.href = "/dashboard/roadmap";
             }
         });
 
