@@ -59,7 +59,7 @@ class SubjectList1 extends React.Component {
                                 <td>{subject.tenMH}</td>
                                 <td>{subject.tenGV}</td>
                                 <td>{subject.soTinChi}</td>
-                                <td>{subject.soLuongSVDaDangKyDot1}</td>
+                                <td>{subject.soLuongSVDaDangKyDot1 + "/" + subject.soLuongSV}</td>
                                 {
                                     !subject.isRegistered ?
                                         <td className="text-center"><Button variant="success" onClick={(e) => { this.registerSubject(subject, e) }}>Đăng ký</Button></td> :
@@ -84,13 +84,13 @@ class SubjectList1 extends React.Component {
         window.axios.post(window.API + "/subject/" + subject.id + "/register/phase1").then(result => {
             if (result.data.success) {
                 iziToast.success({
-                    message: "Đăng ký thành công"
+                    message: "Đăng ký thành công. Số tín chỉ còn lại " + result.data.data.soTinChi
                 })
                 this.prepareData();
             }
             else {
                 iziToast.error({
-                    message: result.data.message
+                    message: result.data.message + ". Số tín chỉ còn lại " + result.data.data.soTinChi
                 })
             }
         })
