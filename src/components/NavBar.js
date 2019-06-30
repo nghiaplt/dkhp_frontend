@@ -50,6 +50,7 @@ class Navbar extends React.Component {
                             title={"<b>Profile</b> - " + user.ten}
                             data-content={"<div>  <div><b> Mã số sinh viên </b> - " + (user.id + 1612000) + "</div> <div><b>Lớp </b> - " + user.lop + "</div> <div><b> Khoa </b> - " + user.tenKhoa + "</div>  <div><b> Tích lũy </b> - " + user.soTinChiTichLuy + " tín chỉ</div> </div>"}
                         ></img>
+                        <button className="btn btn-default" onClick={e => { this.signOut(e) }}>Đăng xuất</button>
                     </div>
                 </div>
             </nav>)
@@ -72,6 +73,10 @@ class Navbar extends React.Component {
     }
     mouseLeave() {
         $("#modal-backdrop").remove();
+    }
+    signOut(e) {
+        e.preventDefault();
+
     }
 }
 

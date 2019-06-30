@@ -206,8 +206,13 @@ a.article:hover {
 }
 
 .scroll-view {
-    height: 75vh;
+    height: 85vh;
     width: 100%;
     overflow-x: scroll;
     overflow-y: scroll;
+}
+
+.konvajs-content {
+    background-image: url("./2.jpg")!important;
+    background-color: #cccccc ;
 }

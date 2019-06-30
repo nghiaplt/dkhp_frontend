@@ -1,16 +1,15 @@
 import React from 'react';
 import Konva from 'konva';
 import $ from 'jquery';
-import { thisTypeAnnotation } from '@babel/types';
 
 class Roadmap extends React.Component {
     constructor(props) {
         super(props);
-        this.padding = 50;
+        this.padding = 100;
         this.radius = 20;
         this.firstline = 60;
-        this.distanceBetweenLayer = 200;
-        this.distanceBetweenNode = 100;
+        this.distanceBetweenLayer = 300;
+        this.distanceBetweenNode = 80;
         this.startX = 100;
         this.startY = 20;
         this.isRender = [];
@@ -18,319 +17,64 @@ class Roadmap extends React.Component {
         this.layer = {}
         this.stage = {};
         this.linesHover = [];
+        this.tooltipsHover = [];
         this.circles = [];
         this.subjects = [
-            {
-                "id": 1,
-                "ten": "NONONO",
-                "soTinChi": 1,
-                "tenGV": "HIHII",
-                "soLuongSVToiDa": 100,
-                "soLuongSVDaDangKyDot1": 150,
-                "soLuongSVDaDangKyDot2": 100,
-                "ngayBatDau": "20-12-2012",
-                "ngayKetThuc": "21-12-2012",
-                "tienquyet": [
-                    {
-                        "id": 2,
-                        "ten": "NONONO",
-                        "soTinChi": 1,
-                        "tenGV": "HIHII",
-                        "soLuongSVToiDa": 200,
-                        "soLuongSVDaDangKyDot1": 150,
-                        "soLuongSVDaDangKyDot2": 170,
-                        "ngayBatDau": "20-12-2012",
-                        "ngayKetThuc": "21-12-2012",
-                        "tienquyet": [{
-                            "id": 20,
-                            "ten": "NONONO",
-                            "soTinChi": 1,
-                            "tenGV": "HIHII",
-                            "soLuongSVToiDa": 200,
-                            "soLuongSVDaDangKyDot1": 150,
-                            "soLuongSVDaDangKyDot2": 170,
-                            "ngayBatDau": "20-12-2012",
-                            "ngayKetThuc": "21-12-2012",
-                            "tienquyet": []
-                        },
-                        {
-                            "id": 22,
-                            "ten": "NONONO",
-                            "soTinChi": 1,
-                            "tenGV": "HIHII",
-                            "soLuongSVToiDa": 200,
-                            "soLuongSVDaDangKyDot1": 150,
-                            "soLuongSVDaDangKyDot2": 170,
-                            "ngayBatDau": "20-12-2012",
-                            "ngayKetThuc": "21-12-2012",
-                            "tienquyet": [
-                                {
-                                    "id": 3,
-                                    "ten": "NONONO",
-                                    "soTinChi": 1,
-                                    "tenGV": "HIHII",
-                                    "soLuongSVToiDa": 200,
-                                    "soLuongSVDaDangKyDot1": 150,
-                                    "soLuongSVDaDangKyDot2": 170,
-                                    "ngayBatDau": "20-12-2012",
-                                    "ngayKetThuc": "21-12-2012",
-                                    "tienquyet": [
-                                        {
-                                            "id": 99,
-                                            "ten": "NONONO",
-                                            "soTinChi": 1,
-                                            "tenGV": "HIHII",
-                                            "soLuongSVToiDa": 200,
-                                            "soLuongSVDaDangKyDot1": 150,
-                                            "soLuongSVDaDangKyDot2": 170,
-                                            "ngayBatDau": "20-12-2012",
-                                            "ngayKetThuc": "21-12-2012",
-                                            "tienquyet": []
-                                        },
-                                        {
-                                            "id": 100,
-                                            "ten": "NONONO",
-                                            "soTinChi": 1,
-                                            "tenGV": "HIHII",
-                                            "soLuongSVToiDa": 200,
-                                            "soLuongSVDaDangKyDot1": 150,
-                                            "soLuongSVDaDangKyDot2": 170,
-                                            "ngayBatDau": "20-12-2012",
-                                            "ngayKetThuc": "21-12-2012",
-                                            "tienquyet": []
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        ]
-                    },
-                    {
-                        "id": 4,
-                        "ten": "NONONO",
-                        "soTinChi": 1,
-                        "tenGV": "HIHII",
-                        "soLuongSVToiDa": 200,
-                        "soLuongSVDaDangKyDot1": 150,
-                        "soLuongSVDaDangKyDot2": 170,
-                        "ngayBatDau": "20-12-2012",
-                        "ngayKetThuc": "21-12-2012",
-                        "tienquyet": [{
-                            "id": 23,
-                            "ten": "NONONO",
-                            "soTinChi": 1,
-                            "tenGV": "HIHII",
-                            "soLuongSVToiDa": 200,
-                            "soLuongSVDaDangKyDot1": 150,
-                            "soLuongSVDaDangKyDot2": 170,
-                            "ngayBatDau": "20-12-2012",
-                            "ngayKetThuc": "21-12-2012",
-                            "tienquyet": [{
-                                "id": 90,
-                                "ten": "NONONO",
-                                "soTinChi": 1,
-                                "tenGV": "HIHII",
-                                "soLuongSVToiDa": 200,
-                                "soLuongSVDaDangKyDot1": 150,
-                                "soLuongSVDaDangKyDot2": 170,
-                                "ngayBatDau": "20-12-2012",
-                                "ngayKetThuc": "21-12-2012",
-                                "tienquyet": [
-                                    {
-                                        "id": 6,
-                                        "ten": "NONONO",
-                                        "soTinChi": 1,
-                                        "tenGV": "HIHII",
-                                        "soLuongSVToiDa": 200,
-                                        "soLuongSVDaDangKyDot1": 150,
-                                        "soLuongSVDaDangKyDot2": 170,
-                                        "ngayBatDau": "20-12-2012",
-                                        "ngayKetThuc": "21-12-2012",
-                                        "tienquyet": []
-                                    }]
-                            }]
-                        },
-                        {
-                            "id": 22,
-                            "ten": "NONONO",
-                            "soTinChi": 1,
-                            "tenGV": "HIHII",
-                            "soLuongSVToiDa": 200,
-                            "soLuongSVDaDangKyDot1": 150,
-                            "soLuongSVDaDangKyDot2": 170,
-                            "ngayBatDau": "20-12-2012",
-                            "ngayKetThuc": "21-12-2012",
-                            "tienquyet": []
-                        }]
-                    },
-                ]
-            },
-            {
-                "id": 5,
-                "ten": "NONONO",
-                "soTinChi": 1,
-                "tenGV": "HIHII",
-                "soLuongSVToiDa": 200,
-                "soLuongSVDaDangKyDot1": 150,
-                "soLuongSVDaDangKyDot2": 170,
-                "ngayBatDau": "20-12-2012",
-                "ngayKetThuc": "21-12-2012",
-                "tienquyet": [
-                    {
-                        "id": 88,
-                        "ten": "NONONO",
-                        "soTinChi": 1,
-                        "tenGV": "HIHII",
-                        "soLuongSVToiDa": 200,
-                        "soLuongSVDaDangKyDot1": 150,
-                        "soLuongSVDaDangKyDot2": 170,
-                        "ngayBatDau": "20-12-2012",
-                        "ngayKetThuc": "21-12-2012",
-                        "tienquyet": []
-                    },
-
-                    {
-                        "id": 33,
-                        "ten": "NONONO",
-                        "soTinChi": 1,
-                        "tenGV": "HIHII",
-                        "soLuongSVToiDa": 200,
-                        "soLuongSVDaDangKyDot1": 150,
-                        "soLuongSVDaDangKyDot2": 170,
-                        "ngayBatDau": "20-12-2012",
-                        "ngayKetThuc": "21-12-2012",
-                        "tienquyet": []
-                    }
-                ]
-            },
-            {
-                "id": 11,
-                "ten": "NONONO",
-                "soTinChi": 1,
-                "tenGV": "HIHII",
-                "soLuongSVToiDa": 200,
-                "soLuongSVDaDangKyDot1": 150,
-                "soLuongSVDaDangKyDot2": 170,
-                "ngayBatDau": "20-12-2012",
-                "ngayKetThuc": "21-12-2012",
-                "tienquyet": [
-                    {
-                        "id": 12,
-                        "ten": "NONONO",
-                        "soTinChi": 1,
-                        "tenGV": "HIHII",
-                        "soLuongSVToiDa": 200,
-                        "soLuongSVDaDangKyDot1": 150,
-                        "soLuongSVDaDangKyDot2": 170,
-                        "ngayBatDau": "20-12-2012",
-                        "ngayKetThuc": "21-12-2012",
-                        "tienquyet": [
-                            {
-                                "id": 991,
-                                "ten": "NONONO",
-                                "soTinChi": 1,
-                                "tenGV": "HIHII",
-                                "soLuongSVToiDa": 200,
-                                "soLuongSVDaDangKyDot1": 150,
-                                "soLuongSVDaDangKyDot2": 170,
-                                "ngayBatDau": "20-12-2012",
-                                "ngayKetThuc": "21-12-2012",
-                                "tienquyet": [
-                                    {
-                                        "id": 992,
-                                        "ten": "NONONO",
-                                        "soTinChi": 1,
-                                        "tenGV": "HIHII",
-                                        "soLuongSVToiDa": 200,
-                                        "soLuongSVDaDangKyDot1": 150,
-                                        "soLuongSVDaDangKyDot2": 170,
-                                        "ngayBatDau": "20-12-2012",
-                                        "ngayKetThuc": "21-12-2012",
-                                        "tienquyet": [
-                                            {
-                                                "id": 1992,
-                                                "ten": "NONONO",
-                                                "soTinChi": 1,
-                                                "tenGV": "HIHII",
-                                                "soLuongSVToiDa": 200,
-                                                "soLuongSVDaDangKyDot1": 150,
-                                                "soLuongSVDaDangKyDot2": 170,
-                                                "ngayBatDau": "20-12-2012",
-                                                "ngayKetThuc": "21-12-2012",
-                                                "tienquyet": []
-                                            },
-                                            {
-                                                "id": 1011,
-                                                "ten": "NONONO",
-                                                "soTinChi": 1,
-                                                "tenGV": "HIHII",
-                                                "soLuongSVToiDa": 200,
-                                                "soLuongSVDaDangKyDot1": 150,
-                                                "soLuongSVDaDangKyDot2": 170,
-                                                "ngayBatDau": "20-12-2012",
-                                                "ngayKetThuc": "21-12-2012",
-                                                "tienquyet": [{
-                                                    "id": 9922,
-                                                    "ten": "NONONO",
-                                                    "soTinChi": 1,
-                                                    "tenGV": "HIHII",
-                                                    "soLuongSVToiDa": 200,
-                                                    "soLuongSVDaDangKyDot1": 150,
-                                                    "soLuongSVDaDangKyDot2": 170,
-                                                    "ngayBatDau": "20-12-2012",
-                                                    "ngayKetThuc": "21-12-2012",
-                                                    "tienquyet": []
-                                                },]
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "id": 101,
-                                        "ten": "NONONO",
-                                        "soTinChi": 1,
-                                        "tenGV": "HIHII",
-                                        "soLuongSVToiDa": 200,
-                                        "soLuongSVDaDangKyDot1": 150,
-                                        "soLuongSVDaDangKyDot2": 170,
-                                        "ngayBatDau": "20-12-2012",
-                                        "ngayKetThuc": "21-12-2012",
-                                        "tienquyet": []
-                                    }
-                                ]
-                            },
-                            {
-                                "id": 200,
-                                "ten": "NONONO",
-                                "soTinChi": 1,
-                                "tenGV": "HIHII",
-                                "soLuongSVToiDa": 200,
-                                "soLuongSVDaDangKyDot1": 150,
-                                "soLuongSVDaDangKyDot2": 170,
-                                "ngayBatDau": "20-12-2012",
-                                "ngayKetThuc": "21-12-2012",
-                                "tienquyet": []
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
+        ];
+        this.lines = []
         this.state = {
 
         };
     }
     componentDidMount() {
-        this.stage = this.initStage();
-        this.layer = this.initLayer();
-        this.generateTienquyet(this.subjects, this.startX, this.startY, null, 0);
-        this.draw(this.subjects);
+        this.getRoadmap();
 
-        this.addLayerToStage();
+    }
+    getRoadmap() {
+        window.axios.get(window.API + '/roadmap').then(result => {
+            if (result.data.success) {
+                this.subjects = result.data.data;
+                this.stage = this.initStage();
+                this.layer = this.initLayer();
+                this.generateTienquyet(this.subjects, this.startX, this.startY, null, 0);
+                this.draw(this.subjects);
+                this.drawAnnotation();
+
+                this.addLayerToStage();
+            }
+        })
+    }
+    drawAnnotation() {
+        var line = this.createLine([-90, -80, -50, -80], "blue", 5)
+        var tienquyet = new Konva.Text({
+            x: 70,
+            y: 10,
+            text: 'Môn tiên quyết (phải học)',
+            fontSize: 30,
+            fontFamily: 'Calibri',
+            fill: 'blue'
+        });
+        var line1 = this.createLine([-90, -40, -50, -40], "green", 5)
+        var cothehoc = new Konva.Text({
+            x: 70,
+            y: 50,
+            text: 'Môn có thể học',
+            fontSize: 30,
+            fontFamily: 'Calibri',
+            fill: 'green'
+        });
+        this.addNodeToLayer(line);
+        this.addNodeToLayer(tienquyet);
+        this.addNodeToLayer(line1);
+        this.addNodeToLayer(cothehoc);
     }
     drawBackLines(subject) {
         for (let i = 0; i < subject.cothehoc.length; i++) {
             if (subject.cothehoc[i] != null) {
-                var line = this.createLineFromCircleToCircle(subject.cothehoc[i].x, subject.cothehoc[i].y, subject.x, subject.y, 'yellow', 5);
+                var newLine = this.linesHover.find(line => line.attrs.id1 == subject.cothehoc[i].id && line.attrs.id2 == subject.id);
+                if (newLine !== undefined) continue;
+                var line = this.createLineFromCircleToCircle(subject.cothehoc[i].x, subject.cothehoc[i].y, subject.x, subject.y,
+                    'green', 5, subject.cothehoc[i].id, subject.id);
                 this.linesHover = [...this.linesHover, line];
                 this.addNodeToLayer(line);
                 this.drawBackLines(subject.cothehoc[i]);
@@ -341,7 +85,10 @@ class Roadmap extends React.Component {
     drawNexLines(subject) {
         for (let i = 0; i < subject.tienquyet.length; i++) {
             if (subject.tienquyet[i] != null) {
-                var line = this.createLineFromCircleToCircle(subject.x, subject.y, subject.tienquyet[i].x, subject.tienquyet[i].y, 'blue', 5);
+                var newLine = this.linesHover.find(line => line.attrs.id1 == subject.id && line.attrs.id2 == subject.tienquyet[i].id);
+                if (newLine !== undefined) continue;
+                var line = this.createLineFromCircleToCircle(subject.x, subject.y, subject.tienquyet[i].x, subject.tienquyet[i].y,
+                    'blue', 5, subject.id, subject.tienquyet[i].id);
                 this.linesHover = [...this.linesHover, line];
                 this.addNodeToLayer(line);
                 this.drawNexLines(subject.tienquyet[i]);
@@ -352,8 +99,10 @@ class Roadmap extends React.Component {
     drawBackTooltips(subject) {
         for (let i = 0; i < subject.cothehoc.length; i++) {
             if (subject.cothehoc[i] != null) {
-                var tooltip = this.createToolTip(subject.cothehoc[i].ten, subject.cothehoc[i].x, subject.cothehoc[i].y - this.radius / 2);
-                this.linesHover = [...this.linesHover, tooltip];
+                var newTooltip = this.tooltipsHover.find(tooltip => tooltip.attrs.id === subject.cothehoc[i].id);
+                if (newTooltip !== undefined) continue;
+                var tooltip = this.createToolTip(subject.cothehoc[i].ten, subject.cothehoc[i].x, subject.cothehoc[i].y - this.radius / 2, subject.cothehoc[i].id);
+                this.tooltipsHover = [...this.tooltipsHover, tooltip];
                 this.addNodeToLayer(tooltip);
                 this.drawBackTooltips(subject.cothehoc[i]);
             }
@@ -363,8 +112,10 @@ class Roadmap extends React.Component {
     drawNextTooltips(subject) {
         for (let i = 0; i < subject.tienquyet.length; i++) {
             if (subject.tienquyet[i] != null) {
-                var tooltip = this.createToolTip(subject.tienquyet[i].ten, subject.tienquyet[i].x, subject.tienquyet[i].y - this.radius / 2);
-                this.linesHover = [...this.linesHover, tooltip];
+                var newTooltip = this.tooltipsHover.find(tooltip => tooltip.attrs.id === subject.tienquyet[i].id);
+                if (newTooltip !== undefined) continue;
+                var tooltip = this.createToolTip(subject.tienquyet[i].ten, subject.tienquyet[i].x, subject.tienquyet[i].y - this.radius / 2, subject.tienquyet[i].id);
+                this.tooltipsHover = [...this.tooltipsHover, tooltip];
                 this.addNodeToLayer(tooltip);
                 this.drawNextTooltips(subject.tienquyet[i]);
             }
@@ -378,9 +129,12 @@ class Roadmap extends React.Component {
         this.drawNexLines(subject);
 
         var tooltip = this.createToolTip(subject.ten, subject.x, subject.y - this.radius / 2);
-        this.linesHover = [...this.linesHover, tooltip];
+        this.tooltipsHover = [...this.tooltipsHover, tooltip];
         this.addNodeToLayer(tooltip);
+        this.selectedCircle = this.createCircle(subject.x, subject.y, subject.id, 'pink');
+        this.addNodeToLayer(this.selectedCircle);
         this.addLayerToStage();
+
 
         this.drawBackTooltips(subject);
         this.drawNextTooltips(subject);
@@ -390,20 +144,31 @@ class Roadmap extends React.Component {
         this.linesHover.forEach(line => {
             line.destroy();
         })
+        this.tooltipsHover.forEach(tooltip => {
+            tooltip.destroy();
+        })
+        this.selectedCircle.destroy();
+        this.linesHover = [];
+        this.tooltipsHover = [];
     }
     drawCircles(subjects) {
         for (let i = 0; i < subjects.length; i++) {
+            var newcircle = this.circles.find(item => item.attrs.id == subjects[i].id);
+            if (newcircle !== undefined) continue;
             var circle = this.createCircle(subjects[i].x, subjects[i].y, subjects[i].id);
             this.circles = [...this.circles, circle];
             this.addNodeToLayer(circle);
             this.drawCircles(subjects[i].tienquyet);
         }
-
     }
     drawLines(subjects) {
         for (let i = 0; i < subjects.length; i++) {
             for (let j = 0; j < subjects[i].tienquyet.length; j++) {
-                var line = this.createLineFromCircleToCircle(subjects[i].x, subjects[i].y, subjects[i].tienquyet[j].x, subjects[i].tienquyet[j].y);
+                var newline = this.lines.find(item => item.attrs.id1 == subjects[i].id && item.attrs.id2 == subjects[i].tienquyet[j].id);
+                if (newline !== undefined) continue;
+                var line = this.createLineFromCircleToCircle(subjects[i].x, subjects[i].y, subjects[i].tienquyet[j].x, subjects[i].tienquyet[j].y,
+                    'black', 1, subjects[i].id, subjects[i].tienquyet[j].id);
+                this.lines = [...this.lines, line];
                 this.addNodeToLayer(line);
             }
             this.drawLines(subjects[i].tienquyet);
@@ -434,7 +199,7 @@ class Roadmap extends React.Component {
     }
     initStage() {
         // first we need to create a stage
-        var width = $("#container").width() + 10000;
+        var width = $("#container").width() + 1000;
         var height = $("#container").height() + 1000;
 
         return new Konva.Stage({
@@ -446,14 +211,15 @@ class Roadmap extends React.Component {
     initLayer() {
         return new Konva.Layer();
     }
-    createCircle(x, y, id) {
+    createCircle(x, y, id, color) {
+        if (!color) color = 'red';
         var circle = new Konva.Circle({
             x: this.padding + x,
             y: this.padding + y,
             radius: this.radius,
-            fill: 'red',
+            fill: color,
             stroke: 'black',
-            strokeWidth: 1,
+            strokeWidth: 2,
             shadowColor: 'black',
             shadowBlur: 10,
             shadowOffset: { x: 10, y: 10 },
@@ -468,7 +234,7 @@ class Roadmap extends React.Component {
         })
         return circle;
     }
-    createLine(points, color, stroke, zIndex) {
+    createLine(points, color, stroke, zIndex, id1, id2) {
         let new_points = points.map(point => point + this.padding);
         return new Konva.Line({
             points: new_points,
@@ -477,13 +243,16 @@ class Roadmap extends React.Component {
             lineCap: 'round',
             lineJoin: 'round',
             // zIndex: zIndex
+            id1: id1,
+            id2: id2
         });
     }
-    createToolTip(text, x, y) {
+    createToolTip(text, x, y, id) {
         var tooltip = new Konva.Label({
             x: this.padding + x,
             y: this.padding + y,
-            opacity: 0.75
+            opacity: 0.75,
+            id: id
         });
 
         tooltip.add(
@@ -517,12 +286,18 @@ class Roadmap extends React.Component {
     addLayerToStage() {
         this.stage.add(this.layer);
     }
-    createLineFromCircleToCircle(x1, y1, x2, y2, color, stroke, zIndex) {
+    createLineFromCircleToCircle(x1, y1, x2, y2, color, stroke, id1, id2) {
         var distanceY = y2 - y1;
         if (color === undefined) color = "black";
         if (stroke === undefined) stroke = 1;
-        if (zIndex === undefined) zIndex = 1;
-        return this.createLine([x1 + this.radius, y1, x1 + this.firstline + this.radius, y1, x1 + this.firstline + this.radius, y1 + distanceY, x2 - this.radius, y2], color, stroke, zIndex);
+        var zIndex = 0;
+        if (x1 < x2) {
+            return this.createLine([x1 + this.radius, y1, x1 + this.firstline + this.radius, y1, x1 + this.firstline + this.radius, y1 + distanceY, x2 - this.radius, y2], color, stroke, zIndex, id1, id2);
+        } else if (x1 > x2) {
+            return this.createLine([x1 - this.radius, y1, x1 - this.firstline - this.radius, y1, x1 - this.firstline - this.radius, y1 + distanceY, x2 + this.radius, y2], color, stroke, zIndex, id1, id2);
+        } else {
+            return this.createLine([x1 + this.radius, y1, x1 + this.firstline + this.radius, y1, x1 + this.firstline + this.radius, y1 + distanceY, x2 + this.radius, y2], color, stroke, zIndex, id1, id2);
+        }
     }
     render() {
         return (
