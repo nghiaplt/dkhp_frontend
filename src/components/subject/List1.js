@@ -89,9 +89,16 @@ class SubjectList1 extends React.Component {
                 this.prepareData();
             }
             else {
-                iziToast.error({
-                    message: result.data.message + ". Số tín chỉ còn lại " + result.data.data.soTinChi
-                })
+                if (result.data.data.soTinChi) {
+                    iziToast.error({
+                        message: result.data.message + ". Số tín chỉ còn lại " + result.data.data.soTinChi
+                    })
+                }
+                else {
+                    iziToast.error({
+                        message: result.data.message
+                    })
+                }
             }
         })
 

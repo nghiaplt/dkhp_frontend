@@ -27,18 +27,37 @@ class Roadmap extends React.Component {
         };
     }
     componentDidMount() {
-        this.getRoadmap();
 
+        this.stage = this.initStage();
+        this.layer = this.initLayer();
+        this.getRoadmap();
+    }
+    getLeanrtSubjects() {
+        window.axios.get(window.API + '/subjects/learnt').then(result => {
+            if (result.data.success) {
+                this.learntSubjects = result.data.data;
+                this.drawLearntSubject();
+                this.addLayerToStage();
+            }
+        })
+    }
+    drawLearntSubject() {
+        this.learntSubjects.forEach(subject => {
+            var learnt = this.isRender.find(render => render.id == subject.idMonHoc);
+            if (learnt !== undefined) {
+                var circle = this.createCircle(learnt.x, learnt.y, learnt.id, 'green');
+                this.addNodeToLayer(circle);
+            }
+        })
     }
     getRoadmap() {
         window.axios.get(window.API + '/roadmap').then(result => {
             if (result.data.success) {
                 this.subjects = result.data.data;
-                this.stage = this.initStage();
-                this.layer = this.initLayer();
                 this.generateTienquyet(this.subjects, this.startX, this.startY, null, 0);
                 this.draw(this.subjects);
                 this.drawAnnotation();
+                this.getLeanrtSubjects();
 
                 this.addLayerToStage();
             }
@@ -63,10 +82,21 @@ class Roadmap extends React.Component {
             fontFamily: 'Calibri',
             fill: 'yellow'
         });
+        var circle = this.createCircle(400, -60, -1, "green")
+        var dahoc = new Konva.Text({
+            x: 550,
+            y: 30,
+            text: 'Môn đã học',
+            fontSize: 30,
+            fontFamily: 'Calibri',
+            fill: 'green'
+        });
         this.addNodeToLayer(line);
         this.addNodeToLayer(tienquyet);
         this.addNodeToLayer(line1);
         this.addNodeToLayer(cothehoc);
+        this.addNodeToLayer(circle);
+        this.addNodeToLayer(dahoc);
     }
     drawBackLines(subject) {
         for (let i = 0; i < subject.cothehoc.length; i++) {
@@ -226,12 +256,14 @@ class Roadmap extends React.Component {
             shadowOpacity: 0.5,
             id: id
         });
-        circle.on('mouseenter', event => {
-            this.mouseOver(event.target.attrs.id);
-        })
-        circle.on('mouseleave', event => {
-            this.mouseOut(event.target.attrs.id);
-        })
+        if (id !== -1) {
+            circle.on('mouseenter', event => {
+                this.mouseOver(event.target.attrs.id);
+            })
+            circle.on('mouseleave', event => {
+                this.mouseOut(event.target.attrs.id);
+            })
+        }
         return circle;
     }
     createLine(points, color, stroke, zIndex, id1, id2) {

@@ -4,6 +4,9 @@ import { Link, withRouter } from 'react-router-dom';
 import PropTypes from "prop-types";
 import $ from 'jquery';
 
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css'
+
 class Navbar extends React.Component {
     constructor(props) {
         super(props);
@@ -28,7 +31,10 @@ class Navbar extends React.Component {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="nav navbar-nav ml-auto">
                             <li>
-                                <button className="btn btn-primary" onClick={e => this.movePhase2(e)}>Lọc sinh viên cho đăng ký lần 2 </button>
+                                <button className="btn btn-default" onClick={e => this.deletePhase2(e)}>Xóa đkhp lần 2 </button>
+                            </li>
+                            <li>
+                                <button className="btn btn-default" onClick={e => this.movePhase2(e)}>Lọc đkhp lần 2 </button>
                             </li>
                             <li className={location.pathname === "/dashboard/roadmap" ? classActive : classNotActive}>
                                 <Link to="/dashboard/roadmap" className="nav-link">Roadmap</Link>
@@ -84,7 +90,25 @@ class Navbar extends React.Component {
     }
     movePhase2(e) {
         window.axios.post(window.API + "/move/phase2").then(result => {
-
+            if (result.data.success) {
+                iziToast.success({
+                    message: "Chuyển qua đăng ký đợt 2 thành công"
+                })
+            }
+            else {
+                iziToast.error({
+                    message: "Phải xóa hết sinh viên ở lần đăng ký đợt 2 trước khi chuyển qua đăng ký đợt 2"
+                })
+            }
+        })
+    }
+    deletePhase2(e) {
+        window.axios.post(window.API + "/delete/phase2").then(result => {
+            if (result.data.success) {
+                iziToast.success({
+                    message: "Xóa sinh viên đợt 2 thành công"
+                })
+            }
         })
     }
 }
